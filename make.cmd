@@ -25,12 +25,20 @@ IF NOT EXIST bin mkdir bin
 set GOPROXY=https://goproxy.io 
 
 echo step 2/3: install libs...
-
+go get -u -v github.com/golang/net/websocket
 
 echo %GOPATH%
 
-echo step 3/3: build gows.exe...
-go build -i -o bin/gows.exe src/main.go
+echo step 3/4: build server.exe   client.exe...
+go build -i -o bin/server.exe src/server.go
+go build -i -o bin/client.exe src/client.go
+
+echo step 4/4: build server , client ...
+SET CGO_ENABLED=0
+SET GOOS=linux
+SET GOARCH=amd64
+go build -i -o bin/server src/server.go  
+go build -i -o bin/client src/client.go  
 
 echo build success!
 echo 按任意键结束
